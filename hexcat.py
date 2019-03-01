@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# -*- coding: utf-8 -*-
 import sys
 import os
 
@@ -10,13 +10,16 @@ def decode_hex(password):
     decoded = []
     pwd = password
     if "$HEX" in password:
-        #multihex = 
+
         multihex = list(filter(None, password.split("$")))
 
         for x in multihex:
             if "HEX[" in x:
                 endhex = x.find("]")    
-                decoded.append((bytes.fromhex(x[4:endhex]).decode("utf-8")))
+                try:
+                    decoded.append((bytes.fromhex(x[4:endhex]).decode("utf-8")))
+                except:
+                    decoded.append((bytes.fromhex(x[4:endhex]).decode("cp1252")))
             else:
                 decoded.append(x)
 
